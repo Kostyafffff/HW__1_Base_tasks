@@ -35,14 +35,23 @@ function onlyPositiveSum(a, b, c) {
         result = a + b + c;
     }
     else{
-        if(a < 0 && b >= 0 && c >= 0){
+        if (a >= 0 && b >= 0 && c <= 0){
+            result = a + b;
+        }
+        else if(a <= 0 && b >= 0 && c >= 0){
             result = b + c;
+        }
+        else if(a >= 0 && b <= 0 && c >= 0){
+            result = a + c;
+        }
+        else if(a >= 0 && b <= 0 && c <= 0){
+            result = a;
+        }
+        else if(a <= 0 && b >= 0 && c <= 0){
+            result = b;
         }
         else if(a <= 0 && b <= 0 && c >= 0){
             result = c;
-        }
-        else if(b < 0 && a >= 0 && c >= 0){
-            result = a + c;
         }
     }
     return result;
@@ -105,18 +114,32 @@ function sumOfEven(){
      return "Сумма четных: " + sum + ", " + "Количество: " + counter ;
    }
 
-//2) Проверить простое ли число? (число называется простым, если оно делится только само на себя и на 1) !!ДОРАБОТАТЬ
+//2) Проверить простое ли число? (число называется простым, если оно делится только само на себя и на 1)
 
 function isSimple(number) {
-
+    if(number === 1){
+        return  false;
+    }
+    else if(number === 2){
+        return  true;
+    }
+    else{
+        for(let i = 2; i < number; i++){
+            if(number % i === 0){
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
-//3 Найти корень натурального числа с точностью до целого (рассмотреть вариант последовательного подбора и метод бинарного поиска) !!ДОРАБОТАТЬ
-function SQRT() {
-
+//3 Найти корень натурального числа с точностью до целого (рассмотреть вариант последовательного подбора и метод бинарного поиска)
+/**
+ * @return {number}
+ */
+function SQRT(number) {
+    return number ** (1 / 2);
 }
-
-
 
 //4 Факториал числа
 
@@ -156,11 +179,15 @@ function sumOfCurrentNumbers(number) {
 
 //6 Вывести число, которое является зеркальным отображением !!ДОРАБОТАТЬ
 function mirrorDisplaytion(number){
-    let newNumber = "";
+    let newNumber = 0;
+
     while (number > 0){
-        newNumber += number % 10;
-        number /= 10;
+        let digit = number % 10;
+        number = number / 10;
+        newNumber *= 10;
+        newNumber += digit;
     }
+
     return newNumber;
 }
 
@@ -208,18 +235,172 @@ function minimalIndexOfElement(array){
 
 //4. Найти индекс максимального элемента массива
 function maxIndexOfElement(array){
-    array = [10, -20, 30, 50, -95, 22, 44];
+    //array = [10, -20, 30, 50, -95, 22, 44];
     let maxElement = array[0];
     let maxIndex;
 
     for (let i = 0; i < array.length; i++){
         if(array[i] > maxElement){
-            maxIndex
+            maxIndex = i;
         }
     }
+    return maxIndex;
 }
 
+//5. Посчитать сумму элементов массива с нечетными индексами 
+function sumWithOddIndexes(array) {
+    array = [1, 2, 3, 4, 5, 6, 7, 8];
+    let sum = 0;
+    for(let i = 0; i < array.length; i++){
+        if(i % 2 !== 0){
+            sum += array[i];
+        }
+    }
+    return sum;
+}
+
+//6. Сделать реверс массива (массив в обратном направлении)
+function reverseOfArray(array) {
+    // array = [1, 2, 3, 4, 6, 7, 8];
+    let temp;
+    let tempLast;
+    for (let i = 0; i < array.length / 2; i++) {
+        temp = array[i];
+        tempLast = array[array.length - 1 - i];
+        array[array.length - 1 - i] = temp;
+        array[i] = tempLast;
+    }
+    return array;
+}
+
+//7. Посчитать количество нечётных элементов
+function counterOfOddElement(array) {
+   // array = [1, 2, 3, 4, 5, 6];
+    let counter = 0;
+    for(let i = 0; i < array.length; i++){
+        if(array[i] % 2 !== 0){
+            counter++;
+        }
+    }
+    return counter;
+}
+
+//8. Поменять местами первую и вторую половину массива,
+//например, для массива 1 2 3 4, результат 3 4 1 2
+
+function mirrorChange(array) {
+    array = [1, 2, 3, 4];
+
+    for(let i = 0; i < array.length / 2 + array.length % 2; i++){
+        let temp = array[i];
+        array[i] = array[array.length / 2 + array.length % 2 + i];
+        array[array.length / 2 + array.length % 2 + i] = temp;
+    }
+    return array;
+}
+
+// 9 Bubble
+function bubbleSort(array) {
+    array = [2, 1, 3, 8, 7, 0];
+    for(let i = array.length; i > 0; i--){
+        for(let j = 0; j < array.length - 1; j++){
+            if(array[j] > array[j + 1]){
+                let temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+    return array;
+}
+
+// 10 Select
+
+function selectSort(array) {
+    let min;
+    for(let i = 0; i < array.length - 1; i++){
+        min = i;
+        for(let j = i; j < array.length; j++){
+            if(array[j] < array[min]){
+                min = j;
+            }
+        }
+        let temp = array[i];
+        array[i] = array[min];
+        array[min] = temp;
+    }
+   return array;
+}
+
+// 11 Insert
+
+// 12 Quick
+
+// 13 Merge
+
+// 14 Shell
+
+// 15 Heap
 
 
+//-----------------------------Функции--------------------------------
+// Получить строковое название недели по номеру дня
 
 
+function nameOfDay(number){
+    // работает если параметр обернём в ''
+    let result;
+    let week = {
+        1 : "Monday",
+        2 : "Tuesday",
+        3 : "Wednesday",
+        4 : "Thursday",
+        5 : "Friday",
+        6 : "Saturday",
+        7 : "Sunday",
+    };
+    for(let key in week){
+        if(key === number){
+            result = week[key];
+        }
+    }
+
+    return result;
+}
+
+function nameOfDay2(number){
+    let result;
+    switch (number) {
+        case 1 :
+            result = "Sunday";
+            break;
+        case 2 :
+            result = "Monday";
+            break;
+        case 3 :
+            result = "Tuesday";
+            break;
+        case 4 :
+            result = "Wednesday";
+            break;
+        case 5 :
+            result = "Thursday";
+            break;
+        case 6 :
+            result = "Friday";
+            break;
+        case 7 :
+            result = "Saturday";
+            break;
+
+        default:
+            break;
+    }
+    return result;
+}
+
+//2. Найти расстояние между двумя точками в двухмерном декартовом пространстве
+
+function distanceBetweenPoints(x1, y1, x2, y2) {
+    return ( (x2 - x1) ** 2  + (y2 - y1) ** 2) ** (1/2);
+}
